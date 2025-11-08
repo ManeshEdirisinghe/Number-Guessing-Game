@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Guessing Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">🌙</button>
+
+    <canvas id="confettiCanvas"></canvas>
+
+    <div class="floating-shapes">
+        <div class="shape circle"></div>
+        <div class="shape triangle"></div>
+        <div class="shape square"></div>
+        <div class="shape ellipse"></div>
+        <div class="shape triangle"></div>
+        <div class="shape square"></div>
+        <div class="shape circle"></div>
+        <div class="shape ellipse"></div>
+        <div class="shape square"></div>
+        <div class="shape triangle"></div>
+        <div class="shape circle"></div>
+
+    </div>
+    <div class="floating-emojis">
+        <div class="emoji">1️⃣</div>
+        <div class="emoji">2️⃣</div>
+        <div class="emoji">3️⃣</div>
+        <div class="emoji">4️⃣</div>
+        <div class="emoji">5️⃣</div>
+        <div class="emoji">6️⃣</div>
+        <div class="emoji">7️⃣</div>
+        <div class="emoji">8️⃣</div>
+        <div class="emoji">9️⃣</div>
+        <div class="emoji">🔟</div>
+        <div class="emoji">🎲</div>
+        <div class="emoji">🎲</div>
+        <div class="emoji">🎲</div>
+        <div class="emoji">🎲</div>
+        <div class="emoji">🎲</div>
+        <div class="emoji">🎲</div>
+    </div>
+
+
+
+    <div class="container">
+        <div id="menuScreen">
+            <h1>🎯 Number Guessing Game</h1>
+            <p class="subtitle">Choose Your Challenge!</p>
+            <div class="difficulty-selection">
+                <button class="difficulty-btn beginner" onclick="startGame('beginner')">
+                    🌱 Beginner<br><small>1-50 | 10 tries</small>
+                </button>
+                <button class="difficulty-btn medium" onclick="startGame('medium')">
+                    ⚡ Medium<br><small>1-100 | 7 tries</small>
+                </button>
+                <button class="difficulty-btn hard" onclick="startGame('hard')">
+                    🔥 Hard<br><small>1-200 | 5 tries</small>
+                </button>
+            </div>
+        </div>
+
+        <div id="gameScreen" class="game-area">
+            <h2 id="levelTitle">Level</h2>
+            <div class="stats">
+                <div class="stat-box">
+                    <div class="stat-label">Attempts Left</div>
+                    <div class="stat-value" id="attemptsLeft">0</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Best Score</div>
+                    <div class="stat-value" id="bestScore">-</div>
+                </div>
+            </div>
+
+            <div class="range-display" id="rangeDisplay">Guess between 1-50</div>
+
+            <div class="input-group">
+                <input type="number" id="guessInput" placeholder="Enter your guess" min="1">
+            </div>
+
+            <button class="btn btn-guess" onclick="makeGuess()">🎲 Make Guess</button>
+            <button class="btn btn-reset" onclick="resetGame()">🔄 New Game</button>
+            <button class="btn back-btn" onclick="backToMenu()">← Back to Menu</button>
+
+            <div id="message" class="message" style="display:none;"></div>
+
+            <div class="history" id="historyArea" style="display:none;">
+                <div class="history-title">Your Guesses:</div>
+                <div id="historyList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
