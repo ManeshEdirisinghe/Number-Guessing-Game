@@ -19,74 +19,68 @@ const levelConfig = {
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
 function playSound(type) {
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
+  if (!audioContext) return; // Ensure audioContext exists
 
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
+  const oscillator = audioContext.createOscillator();
+  const gainNode = audioContext.createGain();
 
-    if (type === 'win') {
-        // Victory fanfare
-        const notes = [523.25, 659.25, 783.99, 1046.50];
-        let time = audioContext.currentTime;
-        notes.forEach((freq, i) => {
-            const osc = audioContext.createOscillator();
-            const gain = audioContext.createGain();
-            osc.connect(gain);
-            gain.connect(audioContext.destination);
-            osc.frequency.value = freq;
-            osc.type = 'sine';
-            gain.gain.setValueAtTime(0.3, time);
-            gain.gain.exponentialRampToValueAtTime(0.01, time + 0.3);
-            osc.start(time + i * 0.15);
-            osc.stop(time + i * 0.15 + 0.3);
-        });
-    } else if (type === 'low') {
-        // Gentle, encouraging tone - "you've got this"
-        oscillator.frequency.value = 220;
-        oscillator.type = 'triangle';
-        gainNode.gain.setValueAtTime(0.25, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.4);
-        oscillator.start();
-        oscillator.stop(audioContext.currentTime + 0.8);
-    } else if (type === 'high') {
-        // Bright, celebratory chime - achievement unlocked
-        const now = audioContext.currentTime;
+  oscillator.connect(gainNode);
+  gainNode.connect(audioContext.destination);
 
-        // Play a pleasing chord progression
-        oscillator.frequency.value = 523.25; // C5
-        oscillator.type = 'sine';
+  const now = audioContext.currentTime;
 
-        // Second harmonic for richness
-        const osc2 = audioContext.createOscillator();
-        const gain2 = audioContext.createGain();
-        osc2.connect(gain2);
-        gain2.connect(audioContext.destination);
-        osc2.frequency.value = 659.25; // E5
-        osc2.type = 'sine';
-
-        // Bright, uplifting envelope
-        gainNode.gain.setValueAtTime(0.3, now);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.6);
-        gain2.gain.setValueAtTime(0.2, now);
-        gain2.gain.exponentialRampToValueAtTime(0.01, now + 0.6);
-
-        oscillator.start();
-        osc2.start();
-        oscillator.stop(now + 0.6);
-        osc2.stop(now + 0.6);
-    } else if (type === 'lose') {
-        // Empathetic "aw" sound - supportive, not harsh
-        const now = audioContext.currentTime;
-        oscillator.frequency.setValueAtTime(400, now);
-        oscillator.frequency.exponentialRampToValueAtTime(150, now + 0.6);
-        oscillator.type = 'sine'; // Softer than sawtooth
-        gainNode.gain.setValueAtTime(0.25, now);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.6);
-        oscillator.start();
-        oscillator.stop(now + 0.7);
-    }
+  if (type === 'win') {
+    const notes = [523.25, 659.25, 783.99, 1046.50];
+    notes.forEach((freq, i) => {
+      const osc = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+      osc.connect(gain);
+      gain.connect(audioContext.destination);
+      osc.frequency.value = freq;
+      osc.type = 'triangle';
+      gain.gain.setValueAtTime(0.3, now + i * 0.15);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + i * 0.15 + 0.3);
+      osc.start(now + i * 0.15);
+      osc.stop(now + i * 0.15 + 0.3);
+    });
+  } 
+  else if (type === 'low') {
+    oscillator.type = 'triangle';
+    oscillator.frequency.setValueAtTime(220, now);
+    gainNode.gain.setValueAtTime(0.25, now);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+    oscillator.start(now);
+    oscillator.stop(now + 0.8);
+  } 
+  else if (type === 'high') {
+    oscillator.type = 'sine';
+    oscillator.frequency.setValueAtTime(523.25, now);
+    const osc2 = audioContext.createOscillator();
+    const gain2 = audioContext.createGain();
+    osc2.connect(gain2);
+    gain2.connect(audioContext.destination);
+    osc2.frequency.value = 659.25;
+    osc2.type = 'sine';
+    gainNode.gain.setValueAtTime(0.3, now);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.6);
+    gain2.gain.setValueAtTime(0.2, now);
+    gain2.gain.exponentialRampToValueAtTime(0.01, now + 0.6);
+    oscillator.start(now);
+    osc2.start(now);
+    oscillator.stop(now + 0.6);
+    osc2.stop(now + 0.6);
+  } 
+  else if (type === 'lose') {
+    oscillator.type = 'sine';
+    oscillator.frequency.setValueAtTime(400, now);
+    oscillator.frequency.exponentialRampToValueAtTime(150, now + 0.6);
+    gainNode.gain.setValueAtTime(0.25, now);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.6);
+    oscillator.start(now);
+    oscillator.stop(now + 0.7);
+  }
 }
+
 
 // Confetti animation
 function createConfetti() {
