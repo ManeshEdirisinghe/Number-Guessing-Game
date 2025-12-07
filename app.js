@@ -12,10 +12,10 @@ let bestScores = {
 const levelConfig = {
     beginner: { max: 50, attempts: 10, title: '🌱 Beginner Mode' },
     medium: { max: 100, attempts: 7, title: '⚡ Medium Mode' },
-    hard: { max: 200, attempts: 5, title: '🔥 Hard Mode' }
+    hard: { max: 200, attempts: 5, title: '🔥 Hard Mode' },
+    timer: { max: 100, attempts: 5, title: '⏱️ Timer Mode' }
 };
 
-// Audio Context for sound effects
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
 function playSound(type) {
